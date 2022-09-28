@@ -1,6 +1,9 @@
 import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:motion_toast/resources/arrays.dart';
+import 'package:web_notification/Motion%20Toast/motion_toasts.dart';
 import 'package:web_notification/csv_file.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,12 +34,14 @@ class _HomePageState extends State<HomePage> {
           children: [
             const SizedBox(height:20.0),
             const Text("Home Page"),
-              ElevatedButton(
+            const SizedBox(height: 10),
+            ElevatedButton(
                 child: const Text('Csv File Uplaod'),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=>const FilePage()));
                  },
               ),
+              const SizedBox(height: 10),
               ElevatedButton(
                 child: const Text('In App Message'),
                 onPressed: () {
@@ -49,6 +54,13 @@ class _HomePageState extends State<HomePage> {
                 inAppMessage.triggerEvent('Test');
                },
               ),
+             const SizedBox(height: 10),
+            ElevatedButton(
+              child: const Text('Toast Notifications'),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => const StyledToasts())));
+              },
+            ), 
           ],
         ),
       ),
@@ -63,21 +75,54 @@ class _HomePageState extends State<HomePage> {
       debugPrint('Message data: ${message.data}');
       if (message.notification != null) {
         debugPrint('Message also contained a notification: ${message.notification!.body}');
-        showDialog(
-          context: context,
-            builder: ((BuildContext context) {
-              return SimpleDialog(
-                title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Title ${message.notification!.title}'),
-                      Text('Title ${message.notification!.body}'),
-                    ],
+        MotionToast(
+          icon: Icons.check_circle_outline,
+          iconSize: 0.0,
+          primaryColor: Colors.transparent,
+          secondaryColor: Colors.transparent,
+          animationCurve: Curves.bounceOut,
+          backgroundType: BackgroundType.transparent,
+          layoutOrientation: ToastOrientation.rtl,
+          animationType: AnimationType.fromTop,
+          position: MotionToastPosition.top,
+          animationDuration: const Duration(milliseconds: 1000),
+          borderRadius: 4.0,
+          padding: const EdgeInsets.only(top : 8.0, left: 8.0, right: 8.0),
+          height: MediaQuery.of(context).size.height * 0.095,
+          width: MediaQuery.of(context).size.width - 40,
+          title: Row(
+            children: [
+              const SizedBox(width: 20.0,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:  [
+                  Text(
+                    '${message.notification!.title}',
+                    style:
+                        const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                   ),
-              );
-            }
+                  const SizedBox(
+
+                    height: 10,
+                  ),
+                  Text(
+                    '${message.notification!.body}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              const Icon(
+                Icons.check_circle,
+                color: Colors.green,
+              ),
+            ],
           ),
-        );
+          description: const SizedBox(),
+        ).show(context);
       }
     }
   );

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:web_notification/home_page.dart';
@@ -12,18 +13,18 @@ Future<void> backgroundHandler(RemoteMessage message)async{
 }
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  // if(kIsWeb){
-  //   await Firebase.initializeApp(
-  //   options: const FirebaseOptions(
-  //     apiKey: "AIzaSyBu9eAd26DVhQwFFcmnOuDHHm25tvApRUI",
-  //     authDomain: "web-notification-e24ec.firebaseapp.com",
-  //     projectId: "web-notification-e24ec",
-  //     storageBucket: "web-notification-e24ec.appspot.com",
-  //     messagingSenderId: "270162009803",
-  //     appId: "1:270162009803:web:e0843a216355a655c4054e"
-  //   ),
-  // );
-  // }
+  if(kIsWeb){
+    await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyBu9eAd26DVhQwFFcmnOuDHHm25tvApRUI",
+      authDomain: "web-notification-e24ec.firebaseapp.com",
+      projectId: "web-notification-e24ec",
+      storageBucket: "web-notification-e24ec.appspot.com",
+      messagingSenderId: "270162009803",
+      appId: "1:270162009803:web:e0843a216355a655c4054e"
+    ),
+  );
+  }
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   runApp(const MyApp());

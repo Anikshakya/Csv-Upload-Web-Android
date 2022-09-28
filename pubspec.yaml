@@ -47,6 +47,9 @@ dependencies:
   file_picker: ^4.6.1
   csv: ^5.0.1
 
+  #animated notification
+  motion_toast: ^2.4.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
